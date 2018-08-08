@@ -123,29 +123,32 @@
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
       
+      let matrix = this.attributes;
+      var piecesInColumn = 0;
+      for (var i = 0; i < matrix.n; i++) {
 
+        if (matrix[i][colIndex] === 1) {
+          piecesInColumn++
+        }
+        if (piecesInColumn > 1){
+          return true;
+        }
+      }
       return false; // fixme
     },
 
-    // test if any columns on this board contain conflicts
+    // // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
       //assign a matrix variable for board we are checking
       let matrix = this.attributes;
-      let columns = {};
-      //iterate through our matrix indeces...
-      for (var index in matrix) {
-        //make a new key/value pair containing an empty array
-        columns[index] = [];
-        // iterate through each rowIndex
-        for ( var i = 0; i < matrix[index].length; i++) {
-          //push specific index of each row into the respective column array
-          columns[index].push(matrix[index][i]);
+      console.log(matrix)
+      //iterate through our matrix rows
+      for (var i = 0; i < matrix.n; i++) {
+        if (this.hasColConflictAt(i)){
+          return true;
         }
       }
-      console.log(columns);
-      
-
-      // return false; // fixme
+      return false;
     },
 
 
@@ -155,11 +158,20 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
+      
+
       return false; // fixme
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
+      let matrix = this.attributes;
+
+      for (i = 0; i < matrix.n; i++){
+        if(hasMajorDiagonalConflictAt(i)){
+          return true;
+        }
+      }
       return false; // fixme
     },
 
