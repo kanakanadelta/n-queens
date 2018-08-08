@@ -62,14 +62,14 @@
     },
 
 
-/*
+    /*
          _             _     _
      ___| |_ __ _ _ __| |_  | |__   ___ _ __ ___ _
     / __| __/ _` | '__| __| | '_ \ / _ \ '__/ _ (_)
     \__ \ || (_| | |  | |_  | | | |  __/ | |  __/_
     |___/\__\__,_|_|   \__| |_| |_|\___|_|  \___(_)
 
- */
+    */
     /*=========================================================================
     =                 TODO: fill in these Helper Functions                    =
     =========================================================================*/
@@ -79,12 +79,40 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+      // console.log(this.attributes);
+      // console.log(rowIndex)
+      
+      //initialize counter to check for piece counts
+      var piecesInRow = 0;
+      //iterate through the row index to count pieces in each row
+      for (var i = 0; i < rowIndex.length; i++) {
+        //if a piece is found
+        if ( rowIndex[i] === 1) {
+          //increment our piecesInRow counter
+          piecesInRow++;
+        }
+      }
+      //if more than 2 pieces found in row
+      if (piecesInRow >= 2) {
+        //conflict found = true
+        return true;
+      }
+      return false;
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      return false; // fixme
+      //assign a matrix variable for board we are checking
+      let matrix = this.attributes;
+      //iterate through each row index
+      for (var index in matrix) {
+        //check if row has conflict using method above
+        if (this.hasRowConflictAt(matrix[index])) {
+          //if found, return true
+          return true;
+        }
+      }
+      return false;
     },
 
 
@@ -94,12 +122,30 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
+      
+
       return false; // fixme
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+      //assign a matrix variable for board we are checking
+      let matrix = this.attributes;
+      let columns = {};
+      //iterate through our matrix indeces...
+      for (var index in matrix) {
+        //make a new key/value pair containing an empty array
+        columns[index] = [];
+        // iterate through each rowIndex
+        for ( var i = 0; i < matrix[index].length; i++) {
+          //push specific index of each row into the respective column array
+          columns[index].push(matrix[index][i]);
+        }
+      }
+      console.log(columns);
+      
+
+      // return false; // fixme
     },
 
 
