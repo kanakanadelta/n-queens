@@ -141,7 +141,6 @@
     hasAnyColConflicts: function() {
       //assign a matrix variable for board we are checking
       let matrix = this.attributes;
-      console.log(matrix)
       //iterate through our matrix rows
       for (var i = 0; i < matrix.n; i++) {
         if (this.hasColConflictAt(i)){
@@ -158,7 +157,42 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      
+      let matrix = this.attributes;
+      let pieceInDiagonal;
+      while (majorDiagonalColumnIndexAtFirstRow < matrix.n){
+        pieceInDiagonal = 0;
+        for (let i = 0; i < matrix.n; i++) {
+          console.log(`${this.cid}, (${i}, ${majorDiagonalColumnIndexAtFirstRow}), value: ${matrix[i][majorDiagonalColumnIndexAtFirstRow]}`)
+          if (matrix[i][majorDiagonalColumnIndexAtFirstRow] === 1) {
+            pieceInDiagonal++;
+            console.log('pieces:' + pieceInDiagonal);
+            // if (matrix[i][majorDiagonalColumnIndexAtFirstRow] === undefined) {
+            //   continue;
+            // }
+          }
+        }
+        if (pieceInDiagonal > 1) {
+          return true;
+        }
+        majorDiagonalColumnIndexAtFirstRow++;
+      }
+
+      while (majorDiagonalColumnIndexAtFirstRow < matrix.n){
+        pieceInDiagonal = 0;
+        for (let i = 0; i < matrix.n; i++) {
+          console.log(`${this.cid}, (${majorDiagonalColumnIndexAtFirstRow}, ${i}), value: ${matrix[majorDiagonalColumnIndexAtFirstRow][i]}`)
+          if (matrix[majorDiagonalColumnIndexAtFirstRow][i] === 1) {
+            pieceInDiagonal++;
+            // if (matrix[majorDiagonalColumnIndexAtFirstRow][i] === undefined) {
+            //   continue;
+            // }
+          }
+        }
+        if (pieceInDiagonal > 1) {
+          return true;
+        }
+        majorDiagonalColumnIndexAtFirstRow++;
+      }
 
       return false; // fixme
     },
@@ -168,7 +202,7 @@
       let matrix = this.attributes;
 
       for (i = 0; i < matrix.n; i++){
-        if(hasMajorDiagonalConflictAt(i)){
+        if(this.hasMajorDiagonalConflictAt(i)){
           return true;
         }
       }

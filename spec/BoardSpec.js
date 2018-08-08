@@ -17,6 +17,7 @@ describe('Board', function() {
         expect(conflictDetected).to.be.equal(conflictExpected);
       });
     });
+    // console.log(board);
   };
 
   describe('Empty board', function() {
