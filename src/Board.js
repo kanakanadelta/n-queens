@@ -183,7 +183,7 @@
     hasAnyMajorDiagonalConflicts: function() {
       let matrix = this.rows();
     
-      for (i = -matrix.length + 1; i < matrix.length; i++) {
+      for (let i = -matrix.length + 1; i < matrix.length; i++) {
         if (this.hasMajorDiagonalConflictAt(i)) {
           return true;
         }
@@ -226,7 +226,7 @@
     hasAnyMinorDiagonalConflicts: function() {
       let matrix = this.rows();
       // _getFirstRowColumnIndexForMinorDiagonalOn(rowIndex, colIndex) --> return rowIndex + colIndex
-      for (i = 0; i < (matrix.length * 2) - 2; i++) {
+      for (let i = 0; i < (matrix.length * 2) - 2; i++) {
         if (this.hasMinorDiagonalConflictAt(i)) {
           return true;
         }
