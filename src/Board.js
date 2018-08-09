@@ -163,6 +163,10 @@
       for ( var i = 0; i < matrix.length; i++ ) {
 
         if (this._isInBounds(i, majorDiagonalColumnIndexAtFirstRow + i)) {
+          // _, _, _, [0, 0, 0, 0]
+          // _, _, _, [0, 0, 0, 0]
+          // _, _, _, [0, 0, 0, 0]
+          // _, _, _, [0, 0, 0, 0]
           if (matrix[i][majorDiagonalColumnIndexAtFirstRow + i] === 1) {
             pieceInDiag++;
           }
