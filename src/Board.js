@@ -160,16 +160,18 @@
       let matrix = this.attributes;
       let pieceInDiagonal;
       while (majorDiagonalColumnIndexAtFirstRow < matrix.n){
+        let columnIndex = majorDiagonalColumnIndexAtFirstRow;
         pieceInDiagonal = 0;
         for (let i = 0; i < matrix.n; i++) {
-          console.log(`${this.cid}, (${i}, ${majorDiagonalColumnIndexAtFirstRow}), value: ${matrix[i][majorDiagonalColumnIndexAtFirstRow]}`)
-          if (matrix[i][majorDiagonalColumnIndexAtFirstRow] === 1) {
+          console.log(`${this.cid}, (${i}, ${columnIndex}), value: ${matrix[i][columnIndex]}`)
+          if (matrix[i][columnIndex] === 1) {
             pieceInDiagonal++;
             console.log('pieces:' + pieceInDiagonal);
-            // if (matrix[i][majorDiagonalColumnIndexAtFirstRow] === undefined) {
-            //   continue;
-            // }
+            if (matrix[i][columnIndex] === undefined) {
+              continue;
+            }
           }
+          columnIndex++;
         }
         if (pieceInDiagonal > 1) {
           return true;
@@ -178,15 +180,18 @@
       }
 
       while (majorDiagonalColumnIndexAtFirstRow < matrix.n){
+        let rowIndex = majorDiagonalColumnIndexAtFirstRow;
         pieceInDiagonal = 0;
         for (let i = 0; i < matrix.n; i++) {
-          console.log(`${this.cid}, (${majorDiagonalColumnIndexAtFirstRow}, ${i}), value: ${matrix[majorDiagonalColumnIndexAtFirstRow][i]}`)
-          if (matrix[majorDiagonalColumnIndexAtFirstRow][i] === 1) {
+          console.log(`${this.cid}, (${rowIndex}, ${i}), value: ${matrix[rowIndex][i]}`)
+          if (matrix[rowIndex][i] === 1) {
             pieceInDiagonal++;
-            // if (matrix[majorDiagonalColumnIndexAtFirstRow][i] === undefined) {
-            //   continue;
-            // }
+            console.log('pieces:' + pieceInDiagonal);
+            if (matrix[rowIndex][i] === undefined) {
+              continue;
+            }
           }
+          rowIndex++;
         }
         if (pieceInDiagonal > 1) {
           return true;
