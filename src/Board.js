@@ -103,11 +103,11 @@
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
       //assign a matrix variable for board we are checking
-      let matrix = this.attributes;
+      let matrix = this.rows();
       //iterate through each row index
-      for (var index in matrix) {
+      for (let i = 0; i < matrix.length; i++) {
         //check if row has conflict using method above
-        if (this.hasRowConflictAt(matrix[index])) {
+        if (this.hasRowConflictAt(matrix[i])) {
           //if found, return true
           return true;
         }
@@ -123,9 +123,9 @@
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
       
-      let matrix = this.attributes;
+      let matrix = this.rows();
       var piecesInColumn = 0;
-      for (var i = 0; i < matrix.n; i++) {
+      for (var i = 0; i < matrix.length; i++) {
 
         if (matrix[i][colIndex] === 1) {
           piecesInColumn++
@@ -140,9 +140,9 @@
     // // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
       //assign a matrix variable for board we are checking
-      let matrix = this.attributes;
+      let matrix = this.rows();
       //iterate through our matrix rows
-      for (var i = 0; i < matrix.n; i++) {
+      for (var i = 0; i < matrix.length; i++) {
         if (this.hasColConflictAt(i)){
           return true;
         }
@@ -157,60 +157,71 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      let matrix = this.attributes;
+  
+      let matrix = this.rows();
       let pieceInDiagonal;
-      while (majorDiagonalColumnIndexAtFirstRow < matrix.n){
+      let initial = majorDiagonalColumnIndexAtFirstRow;
+      // console.log('initial:' + initial)
+      while (majorDiagonalColumnIndexAtFirstRow < matrix.length){
         let columnIndex = majorDiagonalColumnIndexAtFirstRow;
         pieceInDiagonal = 0;
-        for (let i = 0; i < matrix.n; i++) {
-          console.log(`${this.cid}, (${i}, ${columnIndex}), value: ${matrix[i][columnIndex]}`)
-          if (matrix[i][columnIndex] === 1) {
-            pieceInDiagonal++;
-            console.log('pieces:' + pieceInDiagonal);
-            if (matrix[i][columnIndex] === undefined) {
-              continue;
+        for (let i = 0; i < matrix.length; i++) {
+          console.log(`position: (${i}, ${columnIndex})`)
+          if (i < matrix.length && columnIndex < matrix.length) {
+            if (matrix[i][columnIndex] === 1) {
+              pieceInDiagonal++;
+              // console.log('pieces:' + pieceInDiagonal);
+              // if (matrix[i][columnIndex] === undefined) {
+              //   continue;
+              // }
             }
+            columnIndex++;
           }
-          columnIndex++;
         }
         if (pieceInDiagonal > 1) {
           return true;
         }
         majorDiagonalColumnIndexAtFirstRow++;
       }
-
-      while (majorDiagonalColumnIndexAtFirstRow < matrix.n){
-        let rowIndex = majorDiagonalColumnIndexAtFirstRow;
+      // majorDiagonalColumnIndexAtFirstRow = initial;
+      
+      while (initial < matrix.length){
+        // console.log('initial in second while:' + initial);
+        let rowIndex = initial;
         pieceInDiagonal = 0;
-        for (let i = 0; i < matrix.n; i++) {
-          console.log(`${this.cid}, (${rowIndex}, ${i}), value: ${matrix[rowIndex][i]}`)
-          if (matrix[rowIndex][i] === 1) {
-            pieceInDiagonal++;
-            console.log('pieces:' + pieceInDiagonal);
-            if (matrix[rowIndex][i] === undefined) {
-              continue;
+        for (let i = 0; i < matrix.length; i++) {
+          console.log(`position: (${rowIndex}, ${i})`)
+          if (i < matrix.length && rowIndex < matrix.length) {
+            if (matrix[rowIndex][i] === 1) {
+              pieceInDiagonal++;
+              // console.log('pieces:' + pieceInDiagonal);
+              if (matrix[rowIndex][i] === undefined) {
+                continue;
+              }
             }
+            rowIndex++;
           }
-          rowIndex++;
         }
         if (pieceInDiagonal > 1) {
           return true;
         }
-        majorDiagonalColumnIndexAtFirstRow++;
+        initial++;
       }
-
+  
       return false; // fixme
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      let matrix = this.attributes;
+  
+      let matrix = this.rows();
 
-      for (i = 0; i < matrix.n; i++){
+      for (i = 0; i < matrix.length; i++){
         if(this.hasMajorDiagonalConflictAt(i)){
           return true;
         }
       }
+      
       return false; // fixme
     },
 
@@ -221,6 +232,8 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
+      
+
       return false; // fixme
     },
 
