@@ -157,72 +157,34 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-  
       let matrix = this.rows();
-      let pieceInDiagonal;
-      let initial = majorDiagonalColumnIndexAtFirstRow;
-      // console.log('initial:' + initial)
-      while (majorDiagonalColumnIndexAtFirstRow < matrix.length){
-        let columnIndex = majorDiagonalColumnIndexAtFirstRow;
-        pieceInDiagonal = 0;
-        for (let i = 0; i < matrix.length; i++) {
-          console.log(`position: (${i}, ${columnIndex})`)
-          if (i < matrix.length && columnIndex < matrix.length) {
-            if (matrix[i][columnIndex] === 1) {
-              pieceInDiagonal++;
-              // console.log('pieces:' + pieceInDiagonal);
-              // if (matrix[i][columnIndex] === undefined) {
-              //   continue;
-              // }
-            }
-            columnIndex++;
+      let pieceInDiag = 0;
+      //traversing rows
+      for ( var i = 0; i < matrix.length; i++ ) {
+
+        if (this._isInBounds(i, majorDiagonalColumnIndexAtFirstRow + i)) {
+          if (matrix[i][majorDiagonalColumnIndexAtFirstRow + i] === 1) {
+            pieceInDiag++;
           }
         }
-        if (pieceInDiagonal > 1) {
-          return true;
-        }
-        majorDiagonalColumnIndexAtFirstRow++;
       }
-      // majorDiagonalColumnIndexAtFirstRow = initial;
+      if (pieceInDiag > 1) {
+        return true;
+      }
       
-      while (initial < matrix.length){
-        // console.log('initial in second while:' + initial);
-        let rowIndex = initial;
-        pieceInDiagonal = 0;
-        for (let i = 0; i < matrix.length; i++) {
-          console.log(`position: (${rowIndex}, ${i})`)
-          if (i < matrix.length && rowIndex < matrix.length) {
-            if (matrix[rowIndex][i] === 1) {
-              pieceInDiagonal++;
-              // console.log('pieces:' + pieceInDiagonal);
-              if (matrix[rowIndex][i] === undefined) {
-                continue;
-              }
-            }
-            rowIndex++;
-          }
-        }
-        if (pieceInDiagonal > 1) {
-          return true;
-        }
-        initial++;
-      }
-  
-      return false; // fixme
+      return false; 
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-  
       let matrix = this.rows();
-
-      for (i = 0; i < matrix.length; i++){
-        if(this.hasMajorDiagonalConflictAt(i)){
+    
+      for (i = -matrix.length + 1; i < matrix.length; i++) {
+        if (this.hasMajorDiagonalConflictAt(i)) {
           return true;
         }
       }
-      
-      return false; // fixme
+      return false; 
     },
 
 
@@ -232,13 +194,39 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
+      let matrix = this.rows();
+      let pieceInDiag = 0;
+      //traversing rows from 0 to matrix.length
+      for ( var i = 0; i < matrix.length; i++ ) {
+        //check if inbounds to continue function
+        if (this._isInBounds(i, minorDiagonalColumnIndexAtFirstRow - i)) {
+          // [0, 0, 0, 0], _, _
+          // [0, 0, 0, 0], _, _
+          // [0, 0, 0, 0], _, _
+          // [0, 0, 0, 0], _, _
+          //hasAnyMinorDiagonalConflicts iterates through the extended array
+          //we traverse minor diagonally by subtracting the iterated i from the extended column index
+          if (matrix[i][minorDiagonalColumnIndexAtFirstRow - i] === 1) {
+            pieceInDiag++;
+          }
+        }
+      }
+      if (pieceInDiag > 1) {
+        return true;
+      }
       
-
       return false; // fixme
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
+      let matrix = this.rows();
+      // _getFirstRowColumnIndexForMinorDiagonalOn(rowIndex, colIndex) --> return rowIndex + colIndex
+      for (i = 0; i < (matrix.length * 2) - 2; i++) {
+        if (this.hasMinorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
       return false; // fixme
     }
 
