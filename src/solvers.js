@@ -22,7 +22,7 @@ window.findNRooksSolution = function(n) {
   for (let i = 0; i < n; i++) {
     for (let j = 0; j < n; j++) {
       solution.togglePiece(i, j);
-      if (solution.hasAnyRooksConflicts(i, j)) {
+      if (solution.hasAnyRooksConflicts()) {
         solution.togglePiece(i, j);
       }
     }
@@ -49,22 +49,24 @@ window.countNRooksSolutions = function(n) {
   //  -->finds possible solutions in the possible solution branches
   debugger;
   var iterateThroughRows = function(row) {
-    while (row < n) {
-      for (let i = 0; i < n; i++) {
-        solution.togglePiece(row, i);
-
-        if (!solution.hasAnyRooksConflicts(row, i)) {
-          //iterate through the remainder of the board with pieces of current branch still in place 
-          iterateThroughRows(row + 1);
-          //take current piece off and continue iterating through the columns
-        }
-
-        solution.togglePiece(row, i);
-      }
+    if (row === n) {
+      solutionCount++;
+      return;
     }
-    //count the solution after it has finished all its rows
-    solutionCount++;
+
+    for (let i = 0; i < n; i++) {
+      solution.togglePiece(row, i);
+
+      if (!solution.hasAnyRooksConflicts()) {
+        //iterate through the remainder of the board with pieces of current branch still in place 
+        iterateThroughRows(row + 1);
+        //take current piece off and continue iterating through the columns
+      }
+
+      solution.togglePiece(row, i);
+    }
   }
+
   
   //start from first row
   iterateThroughRows(0);
@@ -104,8 +106,35 @@ window.findNQueensSolution = function(n) {
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
-  var solutionCount = undefined; //fixme
+  var solutionCount = 0;
+  //define initial board
+  var solution = new Board({n: n});
+  //iterating through the columns
+  //function that takes row as an input and iterates through the rows recursively
+  //  -->finds possible solutions in the possible solution branches
+  debugger;
+  var iterateThroughRows = function(row) {
+    if (row === n) {
+      solutionCount++;
+      return;
+    }
 
+    for (let i = 0; i < n; i++) {
+      solution.togglePiece(row, i);
+
+      if (!solution.hasAnyQueensConflicts()) {
+        //iterate through the remainder of the board with pieces of current branch still in place 
+        iterateThroughRows(row + 1);
+        //take current piece off and continue iterating through the columns
+      }
+
+      solution.togglePiece(row, i);
+    }
+  }
+
+  
+  //start from first row
+  iterateThroughRows(0);
   console.log('Number of solutions for ' + n + ' queens:', solutionCount);
   return solutionCount;
 };
